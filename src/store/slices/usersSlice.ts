@@ -1,6 +1,7 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchUsers } from '../thunks/fetchUsers';
 import { addUser } from '../thunks/addUser';
+import { deleteUser } from '../thunks/deleteUser';
 
 interface InitialValues {
   data: { id: number; name: string }[];
@@ -38,6 +39,18 @@ const usersSlice = createSlice({
       state.data.push(action.payload);
     });
     builder.addCase(addUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    });
+
+    builder.addCase(deleteUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data.filter((user) => action.payload.id !== user.id);
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error;
     });
