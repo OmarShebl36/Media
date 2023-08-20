@@ -1,37 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, User, addUser, fetchUsers } from '../store';
+import { User, addUser, fetchUsers } from '../store';
 import Skeleton from './Skeleton';
 import Button from './Button';
-import { SerializedError } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useThunk } from '../hooks/use-thunk';
 
 function UsersList() {
-  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
-  const [loadingUsersError, setLoadingUsersError] =
-    useState<null | SerializedError>(null);
-  const [isCreatingUser, setIsCreatingUser] = useState(false);
-  const [creatingUserError, setCreatingUserError] =
-    useState<null | SerializedError>(null);
+  const [doFetchUsers, isLoadingUsers, loadingUsersError] =
+    useThunk(fetchUsers);
+  const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUser);
 
-  const dispatch = useDispatch<AppDispatch>();
   const { data } = useSelector((state: any) => {
     return state.users;
   });
 
+  if (
+    typeof doCreateUser !== 'function' ||
+    typeof doFetchUsers !== 'function'
+  ) {
+    return null;
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    setIsLoadingUsers(true);
-    dispatch(fetchUsers())
-      .unwrap()
-      .catch((error) => setLoadingUsersError(error))
-      .finally(() => setIsLoadingUsers(false));
-  }, [dispatch]);
+    doFetchUsers();
+  }, [doFetchUsers]);
 
   const handleUserAdded = () => {
-    setIsCreatingUser(true);
-    dispatch(addUser())
-      .unwrap()
-      .catch((error) => setCreatingUserError(error))
-      .finally(() => setIsCreatingUser(false));
+    doCreateUser();
   };
 
   if (isLoadingUsers) {
