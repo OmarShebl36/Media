@@ -1,9 +1,10 @@
 import React from 'react';
+import UsersList from './components/UsersList';
 
 function App() {
   return (
-    <div>
-      hello!
+    <div className='container ms-auto'>
+      <UsersList />
     </div>
   );
 }
