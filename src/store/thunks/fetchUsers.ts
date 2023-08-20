@@ -1,8 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+export type User = {
+  id: number; name: string
+}
+
+interface Response {
+  data: User[];
+}
+
 const fetchUsers = createAsyncThunk('users/fetch', async () => {
-  const response = await axios.get('http://localhost:3005/users');
+  const response: Response = await axios.get('http://localhost:3005/users');
 
   // !! DEV ONLY!!!
   await pause(1000);
