@@ -1,28 +1,44 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, User, addUser, fetchUsers } from '../store';
 import Skeleton from './Skeleton';
 import Button from './Button';
+import { SerializedError } from '@reduxjs/toolkit';
 
 function UsersList() {
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+  const [loadingUsersError, setLoadingUsersError] =
+    useState<null | SerializedError>(null);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
+  const [creatingUserError, setCreatingUserError] =
+    useState<null | SerializedError>(null);
+
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, data, error } = useSelector((state: any) => {
+  const { data } = useSelector((state: any) => {
     return state.users;
   });
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    setIsLoadingUsers(true);
+    dispatch(fetchUsers())
+      .unwrap()
+      .catch((error) => setLoadingUsersError(error))
+      .finally(() => setIsLoadingUsers(false));
   }, [dispatch]);
 
   const handleUserAdded = () => {
-    dispatch(addUser());
+    setIsCreatingUser(true);
+    dispatch(addUser())
+      .unwrap()
+      .catch((error) => setCreatingUserError(error))
+      .finally(() => setIsCreatingUser(false));
   };
 
-  if (isLoading) {
+  if (isLoadingUsers) {
     return <Skeleton times={6} className='h-10 w-full' />;
   }
 
-  if (error) {
+  if (loadingUsersError) {
     return <div>Error fetching data...</div>;
   }
 
@@ -40,7 +56,12 @@ function UsersList() {
     <div>
       <div className='flex flex-row justify-between m-3'>
         <h1 className='m-2 text-xl'>Users</h1>
-        <Button onClick={handleUserAdded}>+ Add User</Button>
+        {isCreatingUser ? (
+          'Creating User...'
+        ) : (
+          <Button onClick={handleUserAdded}>+ Add User</Button>
+        )}
+        {creatingUserError && 'Error creating user...'}
       </div>
       {renderedUsers}
     </div>
