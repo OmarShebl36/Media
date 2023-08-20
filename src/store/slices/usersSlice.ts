@@ -4,6 +4,8 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: {
     data: [],
+    error: null,
+    isLoading: false,
   },
   reducers: {},
 });
