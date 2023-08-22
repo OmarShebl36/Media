@@ -20,5 +20,11 @@
       "userId": 1
     }
   ],
-  "photos": []
+  "photos": [
+    {
+      "albumId": 1,
+      "url": "https://loremflickr.com/150/150/abstract?lock=6772158002888704",
+      "id": 1
+    }
+  ]
 }
