@@ -8,3 +8,9 @@ export interface Album {
     title: string;
     userId: number;
 }
+
+export interface Photo {
+    id: number;
+    url: string;
+    AlbumId: number;
+}
