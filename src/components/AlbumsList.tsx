@@ -10,7 +10,7 @@ interface Props {
 
 function AlbumsList({ user }: Props) {
   const { data, error, isLoading } = useFetchAlbumsQuery(user);
-  const [addAlbum] = useAddAlbumMutation();
+  const [addAlbum, results] = useAddAlbumMutation();
 
   const handleAddAlbum = () => {
     addAlbum(user);
@@ -33,9 +33,9 @@ function AlbumsList({ user }: Props) {
 
   return (
     <div>
-      <div>
-        Album for {user.name}
-        <Button onClick={handleAddAlbum}>+ Add Album</Button>
+      <div className='m-2 flex flex-row justify-between items-center'>
+        <h3 className='text-lg font-bold'>Album for {user.name}</h3>
+        <Button loading={results.isLoading} onClick={handleAddAlbum}>+ Add Album</Button>
       </div>
       <div>{content}</div>
     </div>
