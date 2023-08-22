@@ -17,7 +17,7 @@ function AlbumsList({ user }: Props) {
   };
 
   let content;
-  if (isLoading) content = <Skeleton times={3} />;
+  if (isLoading) content = <Skeleton times={3} className='h-10 w-full'/>;
   else if (error) content = <div>Error loading albums.</div>;
   else {
     content = data.map((album: Album) => {
