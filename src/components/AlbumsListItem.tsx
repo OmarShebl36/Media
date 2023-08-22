@@ -18,7 +18,11 @@ function AlbumsListItem({ album }: Props) {
   const header = (
     // use fragment instead of div to apply the styles of ExpandablePanel
     <>
-      <Button loading={results.isLoading} onClick={handleDelete}>
+      <Button
+        className='mr-2'
+        loading={results.isLoading}
+        onClick={handleDelete}
+      >
         <GoTrash />
       </Button>
       {album.title}
