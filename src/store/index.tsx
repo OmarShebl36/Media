@@ -19,3 +19,4 @@ export * from './thunks/fetchUsers';
 export * from './thunks/addUser';
 export * from './thunks/deleteUser';
 export * from './apis/albumsApi';
+export * from './apis/photosApi';
