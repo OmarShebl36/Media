@@ -1,6 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createApi } from '@reduxjs/toolkit/dist/query/react';
 import { Album, Photo } from '../../types';
+import { faker } from '@faker-js/faker';
 
 // !! DEV ONLY!!!
 const pause = (duration: number) => {
@@ -52,6 +53,11 @@ const photosApi = createApi({
             url: '/photos',
             body: {
               albumId: album.id,
+              url: faker.image.urlLoremFlickr({
+                category: 'abstract',
+                width: 150,
+                height: 150,
+              }),
             },
             method: 'POST',
           };
@@ -77,5 +83,9 @@ const photosApi = createApi({
   },
 });
 
-export const {useFetchPhotosQuery, useAddPhotoMutation, useRemovePhotoMutation} = photosApi;
+export const {
+  useFetchPhotosQuery,
+  useAddPhotoMutation,
+  useRemovePhotoMutation,
+} = photosApi;
 export { photosApi };
