@@ -1,7 +1,7 @@
 import { useAddAlbumMutation, useFetchAlbumsQuery } from '../store';
 import { Album, User } from '../types';
+import AlbumsListItem from './AlbumsListItem';
 import Button from './Button';
-import ExpandablePanel from './ExpandablePanel';
 import Skeleton from './Skeleton';
 
 interface Props {
@@ -21,13 +21,7 @@ function AlbumsList({ user }: Props) {
   else if (error) content = <div>Error loading albums.</div>;
   else {
     content = data.map((album: Album) => {
-      const header = <div>{album.title}</div>;
-
-      return (
-        <ExpandablePanel key={album.id} header={header}>
-          List of photos in the album...
-        </ExpandablePanel>
-      );
+      return <AlbumsListItem key={album.id} album={album} />;
     });
   }
 
