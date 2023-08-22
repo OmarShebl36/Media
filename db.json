@@ -1,5 +1,24 @@
 {
-  "users": [{ "id": 1, "name": "Myra" }],
-  "albums": [],
+  "users": [
+    {
+      "name": "Myra",
+      "id": 1
+    },
+    {
+      "name": "Bruce Stroman",
+      "id": 2
+    },
+    {
+      "name": "Ann Kunze",
+      "id": 3
+    }
+  ],
+  "albums": [
+    {
+      "id": 1,
+      "title": "Hiking Trip",
+      "userId": 1
+    }
+  ],
   "photos": []
 }
