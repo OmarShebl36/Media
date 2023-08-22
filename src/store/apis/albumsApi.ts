@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../../types';
+import { Album, User } from '../../types';
 
 // !! DEV ONLY!!!
 const pause = (duration: number) => {
@@ -19,12 +19,16 @@ const albumsApi = createApi({
       return fetch(...args);
     },
   }),
-  tagTypes: ['Album'],
+  tagTypes: ['Album', 'UsersAlbums'],
   endpoints(builder) {
     return {
       fetchAlbums: builder.query({
         providesTags: (result, error, user: User) => {
-          return [{ type: 'Album', id: user.id }];
+          const tags = result.map((album: Album) => {
+            return [{ type: 'Album', id: album.id }];
+          });
+          tags.push({ type: 'UsersAlbums', id: user.id });
+          return tags;
         },
         query: (user: User) => {
           return {
@@ -38,7 +42,7 @@ const albumsApi = createApi({
       }),
       addAlbum: builder.mutation({
         invalidatesTags: (result, error, user: User) => {
-          return [{ type: 'Album', id: user.id }];
+          return [{ type: 'UsersAlbums', id: user.id }];
         },
         query: (user) => {
           return {
@@ -52,6 +56,9 @@ const albumsApi = createApi({
         },
       }),
       deleteAlbum: builder.mutation({
+        invalidatesTags: (result, error, album: Album) => {
+          return [{ type: 'Album', id: album.id }];
+        },
         query: (album) => {
           return {
             url: `/albums/${album.id}`,
