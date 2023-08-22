@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 interface Props {
   times: number;
-  className: string;
+  className?: string;
 }
 
 function Skeleton({ times, className }: Props) {
