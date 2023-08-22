@@ -2,22 +2,27 @@ import { GoTrash } from 'react-icons/go';
 import { Album } from '../types';
 import Button from './Button';
 import ExpandablePanel from './ExpandablePanel';
+import { useDeleteAlbumMutation } from '../store';
 
 interface Props {
   album: Album;
 }
 
 function AlbumsListItem({ album }: Props) {
+  const [deleteAlbum, results] = useDeleteAlbumMutation();
+
   const handleDelete = (album: Album) => {
-    console.log('album.id :>> ', album.id);
+    deleteAlbum(album);
   };
+
   const header = (
-    <div>
-      <Button onClick={() => handleDelete}>
+    // use fragment instead of div to apply the styles of ExpandablePanel
+    <>
+      <Button loading={results.isLoading} onClick={() => handleDelete}>
         <GoTrash />
       </Button>
       {album.title}
-    </div>
+    </>
   );
 
   return (
