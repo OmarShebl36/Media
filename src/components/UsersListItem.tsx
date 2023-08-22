@@ -1,8 +1,10 @@
 import { useThunk } from '../hooks/use-thunk';
 import { GoTrash } from 'react-icons/go';
-import { User, deleteUser } from '../store';
+import { deleteUser } from '../store';
 import Button from './Button';
 import ExpandablePanel from './ExpandablePanel';
+import AlbumsList from './AlbumsList';
+import { User } from '../types';
 
 interface Props {
   user: User;
@@ -32,7 +34,8 @@ function UsersListItem({ user }: Props) {
       {user.name}
     </>
   );
-  return <ExpandablePanel header={header}>Content</ExpandablePanel>;
+
+  return <ExpandablePanel header={header}><AlbumsList user={user}/></ExpandablePanel>;
 }
 
 export default UsersListItem;
