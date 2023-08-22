@@ -29,7 +29,7 @@ function PhotosList({ album }: Props) {
     <>
         <div className='m-2 flex flex-row justify-between items-center'>
           <h3 className='text-lg font-bold'>Photos In {album.title}</h3>
-          <Button isLoading={results.isLoading} onClick={handleAddPhoto}>
+          <Button loading={results.isLoading} onClick={handleAddPhoto}>
             + Add Photo
           </Button>
         </div>
