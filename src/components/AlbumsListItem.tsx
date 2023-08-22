@@ -3,6 +3,7 @@ import { Album } from '../types';
 import Button from './Button';
 import ExpandablePanel from './ExpandablePanel';
 import { useDeleteAlbumMutation } from '../store';
+import PhotosList from './PhotosList';
 
 interface Props {
   album: Album;
@@ -31,7 +32,7 @@ function AlbumsListItem({ album }: Props) {
 
   return (
     <ExpandablePanel key={album.id} header={header}>
-      List of photos in the album...
+      <PhotosList album={album} />
     </ExpandablePanel>
   );
 }
