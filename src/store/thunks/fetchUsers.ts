@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-export type User = {
-  id: number; name: string
-}
+import { User } from '../../types';
 
 interface Response {
   data: User[];
